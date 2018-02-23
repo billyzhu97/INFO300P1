@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="56px" height="35px" viewBox="0 0 56 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>gun</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="gun" fill="#F36052" fill-rule="nonzero">
+            <path d="M52.5417157,11.625119 L47.1919343,11.631521 L54.4149562,27.015921 C54.4149562,27.015921 56.2627059,30.567333 55.4090939,32.7346063 C54.545547,34.948392 51.8385642,34.9847136 51.8385642,34.9847136 L41.1451454,35 L36.4731556,23.2898259 L18.7597256,23.3264087 L18.731359,11.6935812 L0.0309810184,11.7304254 L0,0.0570953954 L52.5179244,0 L52.5417157,11.625119 Z M23.1961552,18.8719227 L34.7150808,18.8566362 L32.6027505,13.5683222 L29.9000815,17.621442 L26.3295518,15.2592344 L28.7141752,11.6716315 L23.1834752,11.6897923 L23.1961552,18.8719227 Z" id="Shape-Copy-8" transform="translate(27.817164, 17.500000) scale(-1, 1) translate(-27.817164, -17.500000) "></path>
+        </g>
+    </g>
+</svg>
