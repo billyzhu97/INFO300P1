@@ -17,15 +17,18 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
   //create svg element
-  var svgDoc=d3.select("#graph1").attr("viewBox","0 0 100 100");
+  var svgDoc=d3.select("#graph1").attr("viewBox","0 0 300 300");
 
    //define an icon store it in svg <defs> elements as a reusable component - this geometry can be generated from Inkscape, Illustrator or similar
   svgDoc.append("defs")
-      .append("g")
-      .attr("id","iconCustom")
-      .append("path")
-              .attr("d","M3.5,2H2.7C3,1.8,3.3,1.5,3.3,1.1c0-0.6-0.4-1-1-1c-0.6,0-1,0.4-1,1c0,0.4,0.2,0.7,0.6,0.9H1.1C0.7,2,0.4,2.3,0.4,2.6v1.9c0,0.3,0.3,0.6,0.6,0.6h0.2c0,0,0,0.1,0,0.1v1.9c0,0.3,0.2,0.6,0.3,0.6h1.3c0.2,0,0.3-0.3,0.3-0.6V5.3c0,0,0-0.1,0-0.1h0.2c0.3,0,0.6-0.3,0.6-0.6V2.6C4.1,2.3,3.8,2,3.5,2z");
-
+        .append("g")
+        .attr("id","iconCustom")
+        .append("polygon")
+          .attr("points", "2.3295 1.8123 0.0706 1.8123 .0706 4.3203 .4759 4.3203 0.7092 6.5635 1.6906 6.5635 1.924 4.3203 2.3295 4.3203")
+  d3.select("#iconCustom").append("circle")
+  .attr("cx","1.2")
+  .attr("cy",".7843")
+  .attr("r",".7478")
 
   //background rectangle
   svgDoc.append("rect").attr("width",100).attr("height",100);
