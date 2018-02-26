@@ -19,17 +19,17 @@ document.addEventListener("DOMContentLoaded", function(){
   .attr("height", height)
   .attr("viewBox","0 0 " + " " + width + " " + height);
 
-   // Define an icon & store it in svg <defs> elements as a reusable component
+  // Define an icon & store it in svg <defs> elements as a reusable component
   graph1.append("defs")
-        .append("g")
-          .attr("id","iconCustom")
-        .append("polygon")
-          .attr("points", "5 4 0 4 0 9.27866644 0.897118066 9.27866644 1.41351985 14 3.58581611 14 4.10243924 9.27866644 5 9.27866644")
+  .append("g")
+  .attr("id","iconCustom")
+  .append("polygon")
+  .attr("points", "5 4 0 4 0 9.27866644 0.897118066 9.27866644 1.41351985 14 3.58581611 14 4.10243924 9.27866644 5 9.27866644")
   d3.select("#iconCustom")
-    .append("circle")
-    .attr("cx","2.5")
-    .attr("cy","1.5")
-    .attr("r","1.5")
+  .append("circle")
+  .attr("cx","2.5")
+  .attr("cy","1.5")
+  .attr("r","1.5")
 
   //background rectangle
   graph1.append("rect").attr("width",width).attr("height",height);
@@ -94,23 +94,23 @@ document.addEventListener("DOMContentLoaded", function(){
 
     // Create group element and create an svg <use> element for each icon
     graph1.append("g")
-        .attr("id","pictoLayer")
-        .selectAll("use")
-        .data(myIndex)
-        .enter()
-        .append("use")
-            .attr("xlink:href","#iconCustom")
-            .attr("id",function(d)    {
-                return "icon"+d;
-            })
-            .attr("x",function(d) {
-                var remainder=d % numCols;//calculates the x position (column number) using modulus
-                return xPadding+(remainder*vBuffer);//apply the buffer and return value
-            })
-              .attr("y",function(d) {
-                var whole=Math.floor(d/numCols)//calculates the y position (row number)
-                return yPadding+(whole*hBuffer);//apply the buffer and return the value
-            })
+    .attr("id","pictoLayer")
+    .selectAll("use")
+    .data(myIndex)
+    .enter()
+    .append("use")
+    .attr("xlink:href","#iconCustom")
+    .attr("id",function(d)    {
+      return "icon"+d;
+    })
+    .attr("x",function(d) {
+      var remainder=d % numCols;//calculates the x position (column number) using modulus
+      return xPadding+(remainder*vBuffer);//apply the buffer and return value
+    })
+    .attr("y",function(d) {
+      var whole=Math.floor(d/numCols)//calculates the y position (row number)
+      return yPadding+(whole*hBuffer);//apply the buffer and return the value
+    })
 
     myIndex.forEach(function(index) {
       var person = graph1.select("#icon"+index)
@@ -125,5 +125,7 @@ document.addEventListener("DOMContentLoaded", function(){
       }
     });
   } // End makeRaceGraph
+
+
 
 }); // End DOMContentLoaded
