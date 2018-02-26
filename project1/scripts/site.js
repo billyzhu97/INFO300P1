@@ -1,11 +1,9 @@
 document.addEventListener("DOMContentLoaded", function(){
-  var width = 500;
-  var height = 500;
+  var width = 200;
+  var height = 200;
   var padding = 20;
 
-  var graph1 = d3.select("#graph1")
-  // .attr("width", width)
-  // .attr("height", height);
+
 
   var graph2 = d3.select("#graph2")
   .attr("width", width)
@@ -15,67 +13,26 @@ document.addEventListener("DOMContentLoaded", function(){
   .attr("width", width)
   .attr("height", height);
 
+  // People pictogram
+  var graph1 = d3.select("#graph1")
+  .attr("width", width)
+  .attr("height", height)
+  .attr("viewBox","0 0 " + " " + width + " " + height);
 
-  //create svg element
-  var svgDoc=d3.select("#graph1").attr("viewBox","0 0 300 300");
-
-   //define an icon store it in svg <defs> elements as a reusable component - this geometry can be generated from Inkscape, Illustrator or similar
-  svgDoc.append("defs")
+   // Define an icon & store it in svg <defs> elements as a reusable component
+  graph1.append("defs")
         .append("g")
-        .attr("id","iconCustom")
+          .attr("id","iconCustom")
         .append("polygon")
-          .attr("points", "2.3295 1.8123 0.0706 1.8123 .0706 4.3203 .4759 4.3203 0.7092 6.5635 1.6906 6.5635 1.924 4.3203 2.3295 4.3203")
-  d3.select("#iconCustom").append("circle")
-  .attr("cx","1.2")
-  .attr("cy",".7843")
-  .attr("r",".7478")
+          .attr("points", "5 4 0 4 0 9.27866644 0.897118066 9.27866644 1.41351985 14 3.58581611 14 4.10243924 9.27866644 5 9.27866644")
+  d3.select("#iconCustom")
+    .append("circle")
+    .attr("cx","2.5")
+    .attr("cy","1.5")
+    .attr("r","1.5")
 
   //background rectangle
-  svgDoc.append("rect").attr("width",100).attr("height",100);
-
-  //specify the number of columns and rows for pictogram layout
-  var numCols = 10;
-  var numRows = 10;
-
-  //padding for the grid
-  var xPadding = 10;
-  var yPadding = 15;
-
-  //horizontal and vertical spacing between the icons
-  var hBuffer = 8;
-  var wBuffer = 8;
-
-  //generate a d3 range for the total number of required elements
-  var myIndex=d3.range(numCols*numRows);
-
-  //text element to display number of icons highlighted
-  svgDoc.append("text")
-      .attr("id","txtValue")
-      .attr("x",xPadding)
-      .attr("y",yPadding)
-      .attr("dy",-3)
-      .text("0");
-
-  //create group element and create an svg <use> element for each icon
-  svgDoc.append("g")
-      .attr("id","pictoLayer")
-      .selectAll("use")
-      .data(myIndex)
-      .enter()
-      .append("use")
-          .attr("xlink:href","#iconCustom")
-          .attr("id",function(d)    {
-              return "icon"+d;
-          })
-          .attr("x",function(d) {
-              var remainder=d % numCols;//calculates the x position (column number) using modulus
-              return xPadding+(remainder*wBuffer);//apply the buffer and return value
-          })
-            .attr("y",function(d) {
-              var whole=Math.floor(d/numCols)//calculates the y position (row number)
-              return yPadding+(whole*hBuffer);//apply the buffer and return the value
-          })
-          .classed("iconPlain",true);
+  graph1.append("rect").attr("width",width).attr("height",height);
 
   d3.csv("data/police_killings.csv", callback);
 
@@ -90,29 +47,83 @@ document.addEventListener("DOMContentLoaded", function(){
     .rollup(function(v){return v.length;})
     .entries(data);
 
-    console.log(race_array);
-    raceGraph(race_array);
+    makeRaceGraph(race_array);
 
   }
 
-  function raceGraph(data){
+  function makeRaceGraph(data){
     var frequency_total = 0;
 
     data.forEach(function(element){
-      frequency_total += element.value;
+      frequency_total += element.value; // element.value is frequency
     });
 
     var race_frequency_array = [];
+
+    // Sort array in descending frequency order (Greatest -> Least frequent)
+    data.sort(function(a, b) {
+      return parseFloat(b.value) - parseFloat(a.value);
+    });
+    var max_index = 0; // Last index for each type of colored icon. Indexes range from 0-99
+
     data.forEach(function(element){
       var percent = Math.round(element.value/frequency_total * 100);
+      // Reduce highest perecentage by 1 to make sure perecentages add up to 100%
       if(element.key == "White"){
         percent--;
       }
-      race_frequency_array.push({"Race" : element.key,"Percentage" : percent});
+      max_index += percent;
+
+      race_frequency_array.push({"Race" : element.key,"Percentage" : percent, "MaxIndex" : max_index - 1 });
     });
-    console.log(race_frequency_array);
 
-  }
+    // Number of cols & rows for pictogram
+    var numCols = 20;
+    var numRows = 5;
 
+    // Grid padding
+    var xPadding = 10;
+    var yPadding = 15;
 
-});
+    // Horizontal and vertical spacing between the icons
+    var hBuffer = 16;
+    var vBuffer = 8;
+
+    // Return range for total # of elements
+    var myIndex=d3.range(numCols*numRows);
+
+    // Create group element and create an svg <use> element for each icon
+    graph1.append("g")
+        .attr("id","pictoLayer")
+        .selectAll("use")
+        .data(myIndex)
+        .enter()
+        .append("use")
+            .attr("xlink:href","#iconCustom")
+            .attr("id",function(d)    {
+                return "icon"+d;
+            })
+            .attr("x",function(d) {
+                var remainder=d % numCols;//calculates the x position (column number) using modulus
+                return xPadding+(remainder*vBuffer);//apply the buffer and return value
+            })
+              .attr("y",function(d) {
+                var whole=Math.floor(d/numCols)//calculates the y position (row number)
+                return yPadding+(whole*hBuffer);//apply the buffer and return the value
+            })
+
+    myIndex.forEach(function(index) {
+      var person = graph1.select("#icon"+index)
+      if(index <= race_frequency_array[0].MaxIndex) {
+        person.classed("iconRed",true);
+      } else if(index <= race_frequency_array[1].MaxIndex) {
+        person.classed("iconBlue", true);
+      } else if(index <= race_frequency_array[2].MaxIndex) {
+        person.classed("iconGreen", true);
+      } else {
+        person.classed("iconOrange", true);
+      }
+    });
+  } // End makeRaceGraph
+
+}); // End DOMContentLoaded

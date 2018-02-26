@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="24px" height="66px" viewBox="0 0 24 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="5px" height="14px" viewBox="0 0 5 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
     <title>person</title>
     <desc>Created with Sketch.</desc>
@@ -7,8 +7,8 @@
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="person" fill="#F36052" fill-rule="nonzero">
             <g id="Group-Copy-4">
-                <polygon id="Shape" points="23.295 18.123 0.706 18.123 0.706 43.203 4.759 43.203 7.092 65.635 16.906 65.635 19.24 43.203 23.295 43.203"></polygon>
-                <circle id="Oval" cx="12" cy="7.843" r="7.478"></circle>
+                <polygon id="Shape" points="5 4 0 4 0 9.27866644 0.897118066 9.27866644 1.41351985 14 3.58581611 14 4.10243924 9.27866644 5 9.27866644"></polygon>
+                <circle id="Oval" cx="2.5" cy="1.5" r="1.5"></circle>
             </g>
         </g>
     </g>
