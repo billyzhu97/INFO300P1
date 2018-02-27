@@ -31,7 +31,7 @@
     var quotients = str.split(" ");
     var results = [];
     quotients.forEach(function(element){
-      results.push(parseInt(element)/divisor);
+      results.push(parseFloat(element)/divisor);
     });
     var answer = results.join();
     var newchar = ' '

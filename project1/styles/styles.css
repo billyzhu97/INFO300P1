@@ -6,9 +6,10 @@ svg {
   float:left;
 }
 
-rect    {
+rect{
   fill:#fff1e0;
 }
+
 
 /* ------------ Pictograms ------------ */
 
@@ -30,4 +31,28 @@ rect    {
 
 .iconGray {
   fill: #B0BEC5;
+}
+
+.armedRed{
+  fill: #D60000;
+}
+
+.armedDarkBlue{
+  fill: #0BCFDD;
+}
+
+.armedPink{
+  fill: #F6839C;
+}
+
+.armedBlue{
+  fill: #7A90FF;
+}
+
+.armedGreen{
+  fill: #69AD4C;
+}
+
+.armedPurple{
+  fill: #682F77;
 }
