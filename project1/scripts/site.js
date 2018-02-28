@@ -129,21 +129,18 @@ document.addEventListener("DOMContentLoaded", function(){
 
     var y_position = 420;
     var text_size = 0;
+    var index = 0;
     race_frequency_array.forEach(function(element){
       graph1.append("text")
       .attr("x", xPadding)
       .attr("y", y_position)
-
-      y_position +=
+      .attr("text-anchor", "start")
+      .attr("alignment-baseline", "hanging")
+      .attr("font-size", parseInt(sizeScale(index)))
+      .text(element.TotalDeaths + " people killed were " + element.Race);
+      y_position += parseInt(sizeScale(index))+10;
+      index++;
     })
-
-    graph1.append("text")
-    .attr("x", 20)
-    .attr("y", 420)
-    .attr("text-anchor", "start")
-    .attr("alignment-baseline", "hanging")
-    .attr("font-size", "60")
-    .text("123 of people killed were white");
 
   } // End makeRaceGraph
 
