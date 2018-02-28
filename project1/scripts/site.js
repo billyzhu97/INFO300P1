@@ -64,11 +64,11 @@ document.addEventListener("DOMContentLoaded", function(){
       return parseFloat(b.value) - parseFloat(a.value);
     });
     var max_index = 0; // Last index for each type of colored icon. Indexes range from 0-99
-
+    var order = 1;
     data.forEach(function(element){
       max_index += element.value; // element.value represents 1 death
-
-      race_frequency_array.push({"Race" : element.key,"TotalDeaths" : element.value, "MaxIndex" : max_index - 1 });
+      race_frequency_array.push({"Race" : element.key,"TotalDeaths" : element.value, "MaxIndex" : max_index - 1, "Order" :  order});
+      order += 1;
     });
 
     // Number of cols & rows for pictogram
