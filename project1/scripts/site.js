@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(){
   var width = 1050;
-  var height = 420;
+  var height = 700;
 
   var padding = 40;
 
@@ -45,6 +45,8 @@ document.addEventListener("DOMContentLoaded", function(){
     .rollup(function(v){return v.length;})
     .entries(data);
 
+    console.log(race_array);
+
     makeRaceGraph(race_array);
     makeArmedGraph(armed_array);
     makeArmedbyRaceChart(armed_by_race_array);
@@ -76,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function(){
     var numRows = Math.round(totalDeaths/numCols);
 
     // Grid padding
-    var xPadding = 10;
+    var xPadding = 30;
     var yPadding = 15;
 
     // Horizontal and vertical spacing between the icons
@@ -88,23 +90,27 @@ document.addEventListener("DOMContentLoaded", function(){
 
     // Create group element and create an svg <use> element for each icon
     graph1.append("g")
-          .attr("id","pictoLayer")
-          .selectAll("use")
-          .data(myIndex)
-          .enter()
-          .append("use")
-          .attr("xlink:href","#iconCustom")
-          .attr("id",function(d)    {
-            return "icon"+d;
-          })
-          .attr("x",function(d) {
-            var remainder=d % numCols;//calculates the x position (column number) using modulus
-            return xPadding+(remainder*vBuffer);//apply the buffer and return value
-          })
-          .attr("y",function(d) {
-            var whole=Math.floor(d/numCols)//calculates the y position (row number)
-            return yPadding+(whole*hBuffer);//apply the buffer and return the value
-          })
+    .attr("id","pictoLayer")
+    .selectAll("use")
+    .data(myIndex)
+    .enter()
+    .append("use")
+    .attr("xlink:href","#iconCustom")
+    .attr("id",function(d)    {
+      return "icon"+d;
+    })
+    .attr("x",function(d) {
+      var remainder=d % numCols;//calculates the x position (column number) using modulus
+      return xPadding+(remainder*vBuffer);//apply the buffer and return value
+    })
+    .attr("y",function(d) {
+      var whole=Math.floor(d/numCols)//calculates the y position (row number)
+      return yPadding+(whole*hBuffer);//apply the buffer and return the value
+    })
+
+    var size = ['60','50','40','30'];
+    var sizeScale = d3.scaleLinear().domain([0, 1, 2, 3]).range(size);
+
 
     myIndex.forEach(function(index) {
       var person = graph1.select("#icon"+index)
@@ -120,6 +126,25 @@ document.addEventListener("DOMContentLoaded", function(){
         person.remove()
       }
     });
+
+    var y_position = 420;
+    var text_size = 0;
+    race_frequency_array.forEach(function(element){
+      graph1.append("text")
+      .attr("x", xPadding)
+      .attr("y", y_position)
+
+      y_position +=
+    })
+
+    graph1.append("text")
+    .attr("x", 20)
+    .attr("y", 420)
+    .attr("text-anchor", "start")
+    .attr("alignment-baseline", "hanging")
+    .attr("font-size", "60")
+    .text("123 of people killed were white");
+
   } // End makeRaceGraph
 
   function makeArmedGraph(data){
