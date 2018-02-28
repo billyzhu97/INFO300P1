@@ -1,17 +1,11 @@
 document.addEventListener("DOMContentLoaded", function(){
   var width = 420;
   var height = 500;
-
   var padding = 20;
 
 
   // People pictogram
   var graph1 = d3.select("#graph1")
-  .attr("width", width)
-  .attr("height", height)
-  .attr("viewBox","0 0 " + " " + width + " " + height);
-
-  var graph2 = d3.select("#graph2")
   .attr("width", width)
   .attr("height", height)
   .attr("viewBox","0 0 " + " " + width + " " + height);
@@ -28,19 +22,10 @@ document.addEventListener("DOMContentLoaded", function(){
   .attr("cy","3.9215")
   .attr("r","3.739")
 
-  graph2.append("defs")
-  .append("g")
-  .attr("id","gunSymbol")
-  .append("path")
-  .attr("d", "M52.5417157,11.625119 L47.1919343,11.631521 L54.4149562,27.015921 C54.4149562,27.015921 56.2627059,30.567333 55.4090939,32.7346063 C54.545547,34.948392 51.8385642,34.9847136 51.8385642,34.9847136 L41.1451454,35 L36.4731556,23.2898259 L18.7597256,23.3264087 L18.731359,11.6935812 L0.0309810184,11.7304254 L0,0.0570953954 L52.5179244,0 L52.5417157,11.625119 Z M23.1961552,18.8719227 L34.7150808,18.8566362 L32.6027505,13.5683222 L29.9000815,17.621442 L26.3295518,15.2592344 L28.7141752,11.6716315 L23.1834752,11.6897923 L23.1961552,18.8719227 Z");
-  d3.select("#gunSymbol")
-  .attr("transform", "scale(0.6, 0.6)");
-
   //background rectangle
   graph1.append("rect").attr("width",width).attr("height",height);
-  graph2.append("rect").attr("id", "rect2").attr("width",width).attr("height",height);
 
-  d3.csv("data/police_killings.csv", callback);
+  d3.csv("./data/police_killings.csv", callback);
 
   function callback(error, data) {
     var race_array = d3.nest()
@@ -53,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function(){
     .rollup(function(v){return v.length;})
     .entries(data);
 
+    console.log(armed_array);
     makeRaceGraph(race_array);
     makeArmedGraph(armed_array);
 
@@ -134,80 +120,76 @@ document.addEventListener("DOMContentLoaded", function(){
   } // End makeRaceGraph
 
   function makeArmedGraph(data){
-    var frequency_total = 0;
 
-    data.forEach(function(element){
-      frequency_total += element.value; // element.value is frequency
-    });
+    //constants
+    var width = 700;
+    var height = 700;
+    var bar_padding = 20;
+    var padding = 50;
 
-    var armed_frequency_array = [];
+    //instantiates graph for problem 1
+    var graph = d3.select("#graph2")
+    .attr("width", width)
+    .attr("height", height);
 
     // Sort array in descending frequency order (Greatest -> Least frequent)
     data.sort(function(a, b) {
       return parseFloat(b.value) - parseFloat(a.value);
     });
-    var max_index = 0; // Last index for each type of colored icon. Indexes range from 0-99
 
+    var max_percent = data[0].value;
+    var categories = [];
     data.forEach(function(element){
-      var percent = Math.round(element.value/frequency_total * 100);
-      max_index += percent;
-      armed_frequency_array.push({"Type" : element.key,"Percentage" : percent, "MaxIndex" : max_index - 1 });
-    });
-
-    console.log(armed_frequency_array);
-
-    // Number of cols & rows for pictogram
-    var numCols = 10;
-    var numRows = 10;
-
-    // Grid padding
-    var xPadding = 20;
-    var yPadding = 15;
-
-    // Horizontal and vertical spacing between the icons
-    var hBuffer = 30;
-    var vBuffer = 38;
-
-    // Return range for total # of elements
-    var myIndex=d3.range(numCols*numRows);
-
-    // Create group element and create an svg <use> element for each icon
-    graph2.append("g")
-    .attr("id","pictoLayer")
-    .selectAll("use")
-    .data(myIndex)
-    .enter()
-    .append("use")
-    .attr("xlink:href","#gunSymbol")
-    .attr("id",function(d)    {
-      return "gun"+d;
-    })
-    .attr("x",function(d) {
-      var remainder=d % numCols;//calculates the x position (column number) using modulus
-      return xPadding+(remainder*vBuffer);//apply the buffer and return value
-    })
-    .attr("y",function(d) {
-      var whole=Math.floor(d/numCols)//calculates the y position (row number)
-      return yPadding+(whole*hBuffer);//apply the buffer and return the value
+      categories.push(element.key);
     })
 
-    myIndex.forEach(function(index) {
-      var person = graph2.select("#gun"+index)
-      if(index <= armed_frequency_array[0].MaxIndex) {
-        person.classed("armedRed",true);
-      } else if(index <= armed_frequency_array[1].MaxIndex) {
-        person.classed("armedDarkBlue", true);
-      } else if(index <= armed_frequency_array[2].MaxIndex) {
-        person.classed("armedBlue", true);
-      }  else if(index <= armed_frequency_array[3].MaxIndex) {
-        person.classed("armedPurple", true);
-      }  else if(index <= armed_frequency_array[4].MaxIndex) {
-        person.classed("armedGreen", true);
-      } else {
-        person.classed("armedPink", true);
-      }
-    });
+    var yScale = d3.scaleLinear()
+    .domain([0, max_percent+bar_padding]).range([height-padding, padding]);
+    var xScale = d3.scaleBand()
+    .rangeRound([padding, width-padding]).padding(0.1)
+    .domain(categories);
 
+
+
+    var xAxis = d3.axisBottom(xScale).tickSizeOuter(0);
+    graph.append("g")
+    .attr("transform", "translate(0, "+ (width-padding) +")")
+    .call(xAxis);
+
+    var yAxis = d3.axisLeft(yScale).tickSizeOuter(0);
+    graph.append("g")
+    .attr("transform", "translate(" + padding + ", 0)")
+    .call(yAxis);
+
+    graph.selectAll(".bar")
+    .data(data)
+    .enter().append("rect")
+    .attr("class", "bar")
+    .attr("x", function(d) { return xScale(d.key); })
+    .attr("y", function(d) { return yScale(d.value); })
+    .attr("width", xScale.bandwidth())
+    .attr("height", function(d) { return height-padding - yScale(d.value); });
+
+    graph.append("text")
+    .attr("x", (width+padding)/2)
+    .attr("y", padding/2)
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "central")
+    .text("Why Were They Killed?");
+
+    graph.append("text")
+    .attr("x", (width+padding)/2)
+    .attr("y", height - padding/4)
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "central")
+    .text("Armed Category");
+
+    graph.append("text")
+    .attr("x", padding/4)
+    .attr("y", (height-padding)/2)
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "central")
+    .text("Count");
   } // End makeRaceGraph
 
 
