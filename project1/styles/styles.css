@@ -13,7 +13,11 @@ rect{
 
 body {
   font-family: 'Roboto', sans-serif;
+}
 
+.axis{
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
 }
 
 

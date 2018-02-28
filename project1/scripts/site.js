@@ -125,10 +125,10 @@ document.addEventListener("DOMContentLoaded", function(){
   function makeArmedGraph(data){
 
     //constants
-    var width = 700;
-    var height = 700;
+    var width = 800;
+    var height = 800;
     var bar_padding = 20;
-    var padding = 50;
+    var padding = 80;
 
     //instantiates graph for problem 1
     var graph = d3.select("#graph2")
@@ -157,11 +157,13 @@ document.addEventListener("DOMContentLoaded", function(){
     var xAxis = d3.axisBottom(xScale).tickSizeOuter(0);
     graph.append("g")
     .attr("transform", "translate(0, "+ (width-padding) +")")
+    .attr("class", "axis")
     .call(xAxis);
 
     var yAxis = d3.axisLeft(yScale).tickSizeOuter(0);
     graph.append("g")
     .attr("transform", "translate(" + padding + ", 0)")
+    .attr("class", "axis")
     .call(yAxis);
 
     graph.selectAll(".bar")
@@ -213,11 +215,11 @@ document.addEventListener("DOMContentLoaded", function(){
         cur_array = asian;
       }
       element['values'].forEach(function (inner_element) {
-        
+
       });
     });
-      
-    
+
+
   } // End makeArmedbyRaceChart
 
 }); // End DOMContentLoaded
