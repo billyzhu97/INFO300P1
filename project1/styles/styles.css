@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:900');
 
 /* ------------ General Styling ------------ */
 svg {
@@ -8,6 +9,11 @@ svg {
 
 rect{
   fill:#fff1e0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+
 }
 
 
@@ -55,4 +61,8 @@ rect{
 
 .armedPurple{
   fill: #682F77;
+}
+
+.bar{
+  fill: #D63A54;
 }
