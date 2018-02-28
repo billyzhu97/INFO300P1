@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function(){
   graph1.append("rect").attr("width",width).attr("height",height);
   graph2.append("rect").attr("id", "rect2").attr("width",width).attr("height",height);
 
-  d3.csv("data/police_killings.csv", callback);
+  d3.csv("./data/police_killings.csv", callback);
 
   function callback(error, data) {
     var race_array = d3.nest()
@@ -53,9 +53,15 @@ document.addEventListener("DOMContentLoaded", function(){
     .rollup(function(v){return v.length;})
     .entries(data);
 
+    var armed_by_race_array = d3.nest()
+    .key(d => d.raceethnicity)
+    .key(d => d.armed)
+    .rollup(function(v){return v.length;})
+    .entries(data);
+
     makeRaceGraph(race_array);
     makeArmedGraph(armed_array);
-
+    makeArmedbyRaceChart(armed_by_race_array);
   }
 
   function makeRaceGraph(data){
@@ -210,6 +216,29 @@ document.addEventListener("DOMContentLoaded", function(){
 
   } // End makeRaceGraph
 
-
+  function makeArmedbyRaceChart(armed_by_race_array) {
+    // data arrays keep track of not armed, had firearm, had knife, and other weapons counts
+    var black = [0,0,0,0];
+    var white = [0,0,0,0];
+    var hispanic = [0,0,0,0];
+    var asian = [0,0,0,0];
+    var cur_array = [];
+    armed_by_race_array.forEach(function (element) {
+      if (element['key'] == 'Black') {
+        cur_array = black;
+      } else if (element['key'] == 'White') {
+        cur_array = white;
+      } else if (element['key'] == 'Hispanic/Latino') {
+        cur_array = hispanic;
+      } else {
+        cur_array = asian;
+      }
+      element['values'].forEach(function (inner_element) {
+        
+      });
+    });
+      
+    
+  } // End makeArmedbyRaceChart
 
 }); // End DOMContentLoaded
