@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function(){
   .attr("r","3.739")
 
   //background rectangle
-  graph1.append("rect").attr("width",width).attr("height",height);
+  graph1.append("rect").attr("class", "background-rect").attr("width",width).attr("height",height);
 
   d3.csv("./data/police_killings.csv", callback);
 
@@ -45,10 +45,32 @@ document.addEventListener("DOMContentLoaded", function(){
     .rollup(function(v){return v.length;})
     .entries(data);
 
-    console.log(race_array);
+    var firearm_count = 0;
+    var none_count = 0;
+    var knife_count = 0;
+    var other_count = 0;
+
+    armed_array.forEach(function(element){
+      if(element.key=="Non-lethal firearm"||element.key=="Firearm")
+        firearm_count += element.value;
+      else if(element.key=="Other"||element.key=="Vehicle")
+        other_count += element.value;
+      else if(element.key=="No")
+        none_count+=element.value;
+      else
+        knife_count+=element.value;
+    });
+
+    var modified_armed = [
+      {"index": 0, "key": "Firearm" , "value": firearm_count},
+      {"index": 1,"key": "None" , "value": none_count},
+      {"index": 2,"key": "Knife", "value": knife_count},
+      {"index": 3,"key": "Other", "value": other_count}
+    ];
+
 
     makeRaceGraph(race_array);
-    makeArmedGraph(armed_array);
+    makeArmedGraph(modified_armed);
     makeArmedbyRaceChart(armed_by_race_array);
   }
 
@@ -123,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function(){
       } else if(index <= race_frequency_array[2].MaxIndex) {
         person.classed("iconGreen", true);
       } else if (index <= race_frequency_array[3].MaxIndex){
-        person.classed("iconOrange", true);
+        person.classed("iconPurple", true);
       } else { // Remove extra people in graph
         person.remove()
       }
@@ -174,7 +196,8 @@ document.addEventListener("DOMContentLoaded", function(){
     var xScale = d3.scaleBand()
     .rangeRound([padding, width-padding]).padding(0.1)
     .domain(categories);
-
+    var colorScale = d3.scaleOrdinal()
+    .domain([0, 1, 2, 3]).range(["#A40E4C", "#2C2C54", "#ACC3A6", "#F49D6E"]);
 
 
     var xAxis = d3.axisBottom(xScale).tickSizeOuter(0);
@@ -192,6 +215,7 @@ document.addEventListener("DOMContentLoaded", function(){
     graph.selectAll(".bar")
     .data(data)
     .enter().append("rect")
+    .style("fill", function(d) { return colorScale(d.index); })
     .attr("class", "bar")
     .attr("x", function(d) { return xScale(d.key); })
     .attr("y", function(d) { return yScale(d.value); })
@@ -203,30 +227,37 @@ document.addEventListener("DOMContentLoaded", function(){
     .attr("y", padding/2)
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "central")
-    .text("Why Were They Killed?");
+    .attr("class", "labels")
+    .text("Was There a Threat?");
 
     graph.append("text")
     .attr("x", (width+padding)/2)
     .attr("y", height - padding/4)
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "central")
-    .text("Armed Category");
+    .attr("class", "labels")
+    .text("Weapon");
 
     graph.append("text")
-    .attr("x", padding/4)
+    .attr("x", padding/5)
     .attr("y", (height-padding)/2)
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "central")
-    .text("Count");
-  } // End makeRaceGraph
+    .attr("transform", "rotate(270,"+padding/5+","+(height-padding)/2+")")
+    .attr("class", "labels")
+    .text("People Killed");
+  }
 
   function makeArmedbyRaceChart(armed_by_race_array) {
     // data arrays keep track of not armed, had firearm, had knife, and other weapons counts
-    var black = [0,0,0,0];
-    var white = [0,0,0,0];
-    var hispanic = [0,0,0,0];
-    var asian = [0,0,0,0];
+    var black = ["black",0,0,0,0];
+    var white = ["white",0,0,0,0];
+    var hispanic = ["hispanic",0,0,0,0];
+    var asian = ["asian",0,0,0,0];
     var cur_array = [];
+    var result = [];
+
+    // preprocessing data
     armed_by_race_array.forEach(function (element) {
       if (element['key'] == 'Black') {
         cur_array = black;
@@ -236,12 +267,129 @@ document.addEventListener("DOMContentLoaded", function(){
         cur_array = hispanic;
       } else {
         cur_array = asian;
-      }
+      } 
+      var cur_total = 0;
       element['values'].forEach(function (inner_element) {
-
+        if (inner_element['key'] == "No") {
+          cur_array[2] = cur_array[2] + inner_element['value'];
+          cur_total += inner_element['value'];
+        } else if (inner_element['key'] == "Vehicle") {
+          cur_array[4] = cur_array[4] + inner_element['value'];
+          cur_total += inner_element['value'];
+        } else if (inner_element['key'] == "Firearm") {
+          cur_array[1] = cur_array[1] + inner_element['value'];
+          cur_total += inner_element['value'];
+        } else if (inner_element['key'] == "Knife") {
+          cur_array[3] = cur_array[3] + inner_element['value'];
+          cur_total += inner_element['value'];
+        } else if (inner_element['key'] == "Other") {
+          cur_array[4] = cur_array[4] + inner_element['value'];
+          cur_total += inner_element['value'];
+        } else if (inner_element['key'] == "Non-lethal firearm") {
+          cur_array[1] = cur_array[1] + inner_element['value'];
+          cur_total += inner_element['value'];
+        }
       });
+      var dict = {
+        "race": cur_array[0],
+        "Firearm": (cur_array[1]/cur_total)*100,
+        "No Weapon": (cur_array[2]/cur_total)*100,
+        "Knife": (cur_array[3]/cur_total)*100,
+        "Other": (cur_array[4]/cur_total)*100
+      };
+      result.push(dict);
+    });
+    
+    result.forEach(function(d) {
+      d.value = +d.value;
     });
 
+    // constants
+    var keys = ["Firearm", "No Weapon", "Knife", "Other"];
+    var graph = d3.select("#graph3").attr("width", 800)
+      .attr("height", 800);
+    var padding = 80;
+        margin = {top: 40, right: 20, bottom: 80, left: 80},
+        width = +graph.attr("width") - margin.left - margin.right,
+        height = +graph.attr("height") - margin.top - margin.bottom;
+
+    // Transpose the data into layers and create the graph
+    var dataset = d3.stack().keys(keys)(result);
+
+    var y = d3.scaleBand()
+    .rangeRound([0, height])
+    .paddingInner(0.05)
+    .align(0.1);
+
+    var x = d3.scaleLinear()
+    .rangeRound([0,width]);
+
+    var z = d3.scaleOrdinal()
+    .range(["#A40E4C", "#2C2C54", "#ACC3A6", "#F49D6E"]);
+
+    y.domain(result.map(function(d) { return d.race; }));
+    x.domain([0, 100]).nice();
+    z.domain(keys);
+
+    g = graph.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");;
+
+    g.append("g")
+      .selectAll("g")
+      .data(d3.stack().keys(keys)(result))
+      .enter().append("g")
+      .attr("fill", function(d) { return z(d.key); })
+      .selectAll("rect")
+      .data(function(d) { return d; })
+      .enter().append("rect")
+      .attr("y", function(d) { return y(d.data.race); })
+      .attr("x", function(d) { return x(d[0]); })
+      .attr("width", function(d) { return x(d[1]) - x(d[0]); })
+      .attr("height", y.bandwidth());
+    
+    g.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(0,"+ height +")")
+      .call(d3.axisBottom(x))
+      .append("text")
+      .attr("x", 360)
+      .attr("y", margin.bottom-10)
+      .attr("text-anchor", "middle")
+      .attr("fill", "#000")
+      .attr("font-weight", "bold")
+      .text("Frequency");
+
+    g.append("g")
+      .attr("class", "axis")
+      .call(d3.axisLeft(y).ticks(null, "s"))
+    
+    g.append("text")
+      .attr("x", 360)
+      .attr("y", -margin.top/2)
+      .attr("text-anchor", "middle")
+      .attr("fill", "#000")
+      .attr("font-weight", "bold")
+      .text("Weapons Held At Time of Death, By Race");
+    
+    // create the legend
+    // var legend = g.append("g")
+    //   .attr("font-size", 10)
+    //   .attr("text-anchor", "end")
+    //   .selectAll("g")
+    //   .data(keys.slice().reverse())
+    //   .enter().append("g")
+    //   .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+    // legend.append("rect")
+    //   .attr("x", width - 19)
+    //   .attr("width", 19)
+    //   .attr("height", 19)
+    //   .attr("fill", z);
+
+    // legend.append("text")
+    //   .attr("x", width - 24)
+    //   .attr("y", 9.5)
+    //   .attr("dy", "0.32em")
+    //   .text(function(d) { return d; });
 
   } // End makeArmedbyRaceChart
 

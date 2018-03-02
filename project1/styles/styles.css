@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:900');
-
+@import url('https://fonts.googleapis.com/css?family=Special+Elite');
 /* ------------ General Styling ------------ */
 svg {
   overflow:none;
@@ -7,19 +7,13 @@ svg {
   float:left;
 }
 
-rect{
+.background-rect{
   fill:#fff1e0;
 }
 
 body {
   font-family: 'Roboto', sans-serif;
 }
-
-.axis{
-  font-family: 'Roboto', sans-serif;
-  font-size: 18px;
-}
-
 
 /* ------------ Pictograms ------------ */
 
@@ -36,38 +30,26 @@ body {
   fill: #4FB070;
 }
 
-.iconOrange {
-  fill: #F08743;
+.iconPurple {
+  fill: #886C88;
 }
 
 .iconGray {
   fill: #B0BEC5;
 }
 
-.armedRed{
-  fill: #D60000;
+/* ----------- graph 2 ------------- */
+
+.axis, .labels{
+  font-family: 'Special Elite', sans-serif;
+  font-size: 16px;
 }
 
-.armedDarkBlue{
-  fill: #0BCFDD;
+#graph2{
+  background-color: #fff1e0;
+  padding-left: 30px;
 }
 
-.armedPink{
-  fill: #F6839C;
-}
-
-.armedBlue{
-  fill: #7A90FF;
-}
-
-.armedGreen{
-  fill: #69AD4C;
-}
-
-.armedPurple{
-  fill: #682F77;
-}
-
-.bar{
-  fill: #D63A54;
+.labels{
+  font-size: 40px;
 }
