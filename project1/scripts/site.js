@@ -45,10 +45,32 @@ document.addEventListener("DOMContentLoaded", function(){
     .rollup(function(v){return v.length;})
     .entries(data);
 
-    console.log(race_array);
+    var firearm_count = 0;
+    var none_count = 0;
+    var knife_count = 0;
+    var other_count = 0;
+
+    armed_array.forEach(function(element){
+      if(element.key=="Non-lethal firearm"||element.key=="Firearm")
+        firearm_count += element.value;
+      else if(element.key=="Other"||element.key=="Vehicle")
+        other_count += element.value;
+      else if(element.key=="No")
+        none_count+=element.value;
+      else
+        knife_count+=element.value;
+    });
+
+    var modified_armed = [
+      {"index": 0, "key": "Firearm" , "value": firearm_count},
+      {"index": 1,"key": "None" , "value": none_count},
+      {"index": 2,"key": "Knife", "value": knife_count},
+      {"index": 3,"key": "Other", "value": other_count}
+    ];
+
 
     makeRaceGraph(race_array);
-    makeArmedGraph(armed_array);
+    makeArmedGraph(modified_armed);
     makeArmedbyRaceChart(armed_by_race_array);
   }
 
@@ -121,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function(){
       } else if(index <= race_frequency_array[2].MaxIndex) {
         person.classed("iconGreen", true);
       } else if (index <= race_frequency_array[3].MaxIndex){
-        person.classed("iconOrange", true);
+        person.classed("iconPurple", true);
       } else { // Remove extra people in graph
         person.remove()
       }
@@ -173,7 +195,8 @@ document.addEventListener("DOMContentLoaded", function(){
     var xScale = d3.scaleBand()
     .rangeRound([padding, width-padding]).padding(0.1)
     .domain(categories);
-
+    var colorScale = d3.scaleOrdinal()
+    .domain([0, 1, 2, 3]).range(["#A40E4C", "#2C2C54", "#ACC3A6", "#F49D6E"]);
 
 
     var xAxis = d3.axisBottom(xScale).tickSizeOuter(0);
@@ -191,6 +214,7 @@ document.addEventListener("DOMContentLoaded", function(){
     graph.selectAll(".bar")
     .data(data)
     .enter().append("rect")
+    .style("fill", function(d) { return colorScale(d.index); })
     .attr("class", "bar")
     .attr("x", function(d) { return xScale(d.key); })
     .attr("y", function(d) { return yScale(d.value); })
@@ -202,22 +226,26 @@ document.addEventListener("DOMContentLoaded", function(){
     .attr("y", padding/2)
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "central")
-    .text("Why Were They Killed?");
+    .attr("class", "labels")
+    .text("Was There a Threat?");
 
     graph.append("text")
     .attr("x", (width+padding)/2)
     .attr("y", height - padding/4)
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "central")
-    .text("Armed Category");
+    .attr("class", "labels")
+    .text("Weapon");
 
     graph.append("text")
-    .attr("x", padding/4)
+    .attr("x", padding/5)
     .attr("y", (height-padding)/2)
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "central")
-    .text("Count");
-  } // End makeRaceGraph
+    .attr("transform", "rotate(270,"+padding/5+","+(height-padding)/2+")")
+    .attr("class", "labels")
+    .text("People Killed");
+  }
 
   function makeArmedbyRaceChart(armed_by_race_array) {
     // data arrays keep track of not armed, had firearm, had knife, and other weapons counts
