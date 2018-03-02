@@ -255,7 +255,6 @@ document.addEventListener("DOMContentLoaded", function(){
     var asian = ["asian",0,0,0,0];
     var cur_array = [];
     var result = [];
-    var max_total = 0;
 
     // preprocessing data
     armed_by_race_array.forEach(function (element) {
@@ -290,15 +289,12 @@ document.addEventListener("DOMContentLoaded", function(){
           cur_total += inner_element['value'];
         }
       });
-      if (cur_total > max_total) {
-        max_total = cur_total;
-      }
       var dict = {
         "race": cur_array[0],
-        "Firearm": cur_array[1],
-        "No Weapon": cur_array[2],
-        "Knife": cur_array[3],
-        "Other": cur_array[4]
+        "Firearm": (cur_array[1]/cur_total)*100,
+        "No Weapon": (cur_array[2]/cur_total)*100,
+        "Knife": (cur_array[3]/cur_total)*100,
+        "Other": (cur_array[4]/cur_total)*100
       };
       result.push(dict);
     });
@@ -331,7 +327,7 @@ document.addEventListener("DOMContentLoaded", function(){
     .range(["#A40E4C", "#2C2C54", "#ACC3A6", "#F49D6E"]);
 
     y.domain(result.map(function(d) { return d.race; }));
-    x.domain([0, max_total]).nice();
+    x.domain([0, 100]).nice();
     z.domain(keys);
 
     g = graph.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");;
@@ -374,25 +370,25 @@ document.addEventListener("DOMContentLoaded", function(){
       .text("Weapons Held At Time of Death, By Race");
     
     // create the legend
-    var legend = g.append("g")
-      .attr("font-size", 10)
-      .attr("text-anchor", "end")
-      .selectAll("g")
-      .data(keys.slice().reverse())
-      .enter().append("g")
-      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+    // var legend = g.append("g")
+    //   .attr("font-size", 10)
+    //   .attr("text-anchor", "end")
+    //   .selectAll("g")
+    //   .data(keys.slice().reverse())
+    //   .enter().append("g")
+    //   .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
-    legend.append("rect")
-      .attr("x", width - 19)
-      .attr("width", 19)
-      .attr("height", 19)
-      .attr("fill", z);
+    // legend.append("rect")
+    //   .attr("x", width - 19)
+    //   .attr("width", 19)
+    //   .attr("height", 19)
+    //   .attr("fill", z);
 
-    legend.append("text")
-      .attr("x", width - 24)
-      .attr("y", 9.5)
-      .attr("dy", "0.32em")
-      .text(function(d) { return d; });
+    // legend.append("text")
+    //   .attr("x", width - 24)
+    //   .attr("y", 9.5)
+    //   .attr("dy", "0.32em")
+    //   .text(function(d) { return d; });
 
   } // End makeArmedbyRaceChart
 
