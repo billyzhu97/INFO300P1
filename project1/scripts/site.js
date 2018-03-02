@@ -66,11 +66,11 @@ document.addEventListener("DOMContentLoaded", function(){
       return parseFloat(b.value) - parseFloat(a.value);
     });
     var max_index = 0; // Last index for each type of colored icon. Indexes range from 0-99
-    var order = 1;
+    var rowNum = 1;
     data.forEach(function(element){
       max_index += element.value; // element.value represents 1 death
-      race_frequency_array.push({"Race" : element.key,"TotalDeaths" : element.value, "MaxIndex" : max_index - 1, "Order" :  order});
-      order += 1;
+      race_frequency_array.push({"Race" : element.key,"TotalDeaths" : element.value, "MaxIndex" : max_index - 1, "RowNum" :  rowNum});
+      rowNum += 1;
     });
 
     // Number of cols & rows for pictogram
@@ -108,8 +108,10 @@ document.addEventListener("DOMContentLoaded", function(){
       return yPadding+(whole*hBuffer);//apply the buffer and return the value
     })
 
-    var size = ['60','50','40','30'];
-    var sizeScale = d3.scaleLinear().domain([0, 1, 2, 3]).range(size);
+    var size = [60,50,40,30];
+    var fontColor = ["iconRed","iconBlue", "iconGreen", "iconOrange"];
+    var sizeScale = d3.scaleLinear().domain([1, 2, 3,4]).range(size);
+    var fontColorScale = d3.scaleLinear().domain([1, 2, 3,4]).range(fontColor);
 
 
     myIndex.forEach(function(index) {
@@ -128,19 +130,18 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
     var y_position = 420;
-    var text_size = 0;
-    var index = 0;
     race_frequency_array.forEach(function(element){
       graph1.append("text")
+      .attr("id", "raceLabel")
       .attr("x", xPadding)
       .attr("y", y_position)
       .attr("text-anchor", "start")
       .attr("alignment-baseline", "hanging")
-      .attr("font-size", parseInt(sizeScale(index)))
-      .text(element.TotalDeaths + " people killed were " + element.Race);
-      y_position += parseInt(sizeScale(index))+10;
-      index++;
-    })
+      .style("font-size", sizeScale(element.RowNum) + "px")
+      .classed(fontColorScale(element.RowNum), true)
+      .text("70,000 people injured were white");
+      y_position += sizeScale(element.RowNum)+10;
+    });
 
   } // End makeRaceGraph
 
