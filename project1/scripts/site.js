@@ -271,13 +271,13 @@ document.addEventListener("DOMContentLoaded", function(){
       var cur_total = 0;
       element['values'].forEach(function (inner_element) {
         if (inner_element['key'] == "No") {
-          cur_array[1] = cur_array[1] + inner_element['value'];
+          cur_array[2] = cur_array[2] + inner_element['value'];
           cur_total += inner_element['value'];
         } else if (inner_element['key'] == "Vehicle") {
           cur_array[4] = cur_array[4] + inner_element['value'];
           cur_total += inner_element['value'];
         } else if (inner_element['key'] == "Firearm") {
-          cur_array[2] = cur_array[2] + inner_element['value'];
+          cur_array[1] = cur_array[1] + inner_element['value'];
           cur_total += inner_element['value'];
         } else if (inner_element['key'] == "Knife") {
           cur_array[3] = cur_array[3] + inner_element['value'];
@@ -286,7 +286,7 @@ document.addEventListener("DOMContentLoaded", function(){
           cur_array[4] = cur_array[4] + inner_element['value'];
           cur_total += inner_element['value'];
         } else if (inner_element['key'] == "Non-lethal firearm") {
-          cur_array[2] = cur_array[2] + inner_element['value'];
+          cur_array[1] = cur_array[1] + inner_element['value'];
           cur_total += inner_element['value'];
         }
       });
@@ -295,8 +295,8 @@ document.addEventListener("DOMContentLoaded", function(){
       }
       var dict = {
         "race": cur_array[0],
-        "No Weapon": cur_array[1],
-        "Firearm": cur_array[2],
+        "Firearm": cur_array[1],
+        "No Weapon": cur_array[2],
         "Knife": cur_array[3],
         "Other": cur_array[4]
       };
@@ -308,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
     // constants
-    var keys = ["No Weapon", "Firearm", "Knife", "Other"];
+    var keys = ["Firearm", "No Weapon", "Knife", "Other"];
     var graph = d3.select("#graph3").attr("width", 800)
       .attr("height", 800);
     var padding = 80;
@@ -328,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function(){
     .rangeRound([0,width]);
 
     var z = d3.scaleOrdinal()
-    .range(["#b33040", "#d25c4d", "#f2b447", "#d9d574"]);
+    .range(["#A40E4C", "#2C2C54", "#ACC3A6", "#F49D6E"]);
 
     y.domain(result.map(function(d) { return d.race; }));
     x.domain([0, max_total]).nice();
