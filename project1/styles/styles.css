@@ -13,6 +13,10 @@ svg {
 
 body {
   font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+
 }
 
 h1{
@@ -24,7 +28,11 @@ h1{
 /* ------------ Pictograms ------------ */
 #graph1{
   display: block;
-  margin: auto;
+}
+
+#race{
+  margin: 0 auto;
+  width:1050px;
 }
 
 .iconRed {
@@ -65,6 +73,11 @@ h1{
 
 .labels{
   font-size: 40px;
+}
+
+#armed{
+  display: inline-block;
+  margin:auto;
 }
 
 /* ----------- graph 3 ------------- */
