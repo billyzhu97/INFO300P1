@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(){
   var width = 1050;
-  var height = 700;
+  var height = 800;
 
   var padding = 40;
 
@@ -75,6 +75,13 @@ document.addEventListener("DOMContentLoaded", function(){
   }
 
   function makeRaceGraph(data){
+    var yPosition = 30;
+    var yElementsPadding = 10; // padding btwn elements (e.g. btwn label & pictogram)
+
+    // Grid padding
+    var xPadding = 30;
+    var yPadding = 15;
+
     var totalDeaths = 0;
 
     data.forEach(function(element){
@@ -88,20 +95,15 @@ document.addEventListener("DOMContentLoaded", function(){
       return parseFloat(b.value) - parseFloat(a.value);
     });
     var max_index = 0; // Last index for each type of colored icon. Indexes range from 0-99
-    var rowNum = 1;
+
     data.forEach(function(element){
       max_index += element.value; // element.value represents 1 death
-      raceFrequencyArray.push({"Race" : element.key,"TotalDeaths" : element.value, "MaxIndex" : max_index - 1, "RowNum" :  rowNum});
-      rowNum += 1;
+      raceFrequencyArray.push({"Race" : element.key,"TotalDeaths" : element.value, "MaxIndex" : max_index - 1});
     });
 
     // Number of cols & rows for pictogram
     var numCols = 50;
     var numRows = Math.round(totalDeaths/numCols);
-
-    // Grid padding
-    var xPadding = 30;
-    var yPadding = 15;
 
     // Horizontal and vertical spacing between the icons
     var hBuffer = 40;
@@ -111,8 +113,11 @@ document.addEventListener("DOMContentLoaded", function(){
     var myIndex=d3.range(numCols*numRows);
 
     // Create group element and create an svg <use> element for each icon
+    yPosition += yElementsPadding + 45; //45 is font size of totalDeathsLabel
+
     graph1.append("g")
     .attr("id","pictoLayer")
+    .attr("transform", "translate(" + 0 + "," + yPosition + ")")
     .selectAll("use")
     .data(myIndex)
     .enter()
@@ -153,18 +158,20 @@ document.addEventListener("DOMContentLoaded", function(){
                           {text: ' of people killed were '},
                           {text: element.Race, color: fontColorScale(index)}]);
     });
+    console.log(raceTextArray);
 
     var size = [60,50,40,30];
-    var sizeScale = d3.scaleLinear().domain([1, 2, 3,4]).range(size);
-    var y_position = 390;
+    var sizeScale = d3.scaleLinear().domain([1, 2, 3, 4]).range(size);
     var raceLabels = graph1.selectAll('text').data(raceTextArray)
       		            .enter().append("text")
 		                  .attr("id", "raceLabel");
 
+   yPosition += yElementsPadding + 370; //355 = height of pictogram
    raceLabels.attr("x", xPadding)
              .attr("y", function(d, i) {
-              	y_position += sizeScale(i) + 10;
-              	return y_position;
+               console.log("index: " + i);
+              	yPosition += sizeScale(i) + 10;
+              	return yPosition;
               })
             .attr("text-anchor", "start")
             .attr("alignment-baseline", "hanging")
@@ -177,6 +184,18 @@ document.addEventListener("DOMContentLoaded", function(){
           .style('fill', function(d) { return d.color; })
           .style('font-weight', '600')
           .text(function(d) { return d.text; });
+
+  // Add title (AFTER add textLabel elements to prevent whiteTextLabel from being cut off due to .selectAll func)
+  var totalDeathsLabel = graph1.append("text")
+                                .attr("id", "totalDeathsLabel")
+                                .attr("x", xPadding)
+                                .attr("y", 30)
+                               .attr("text-anchor", "start")
+                               .attr("alignment-baseline", "hanging")
+                               .style("font-family", "Roboto")
+                               .style("font-weight", "900")
+                               .style("font-size", 45)
+                               .text(totalDeaths + " people were killed by police officers");
 
   } // End makeRaceGraph
 
