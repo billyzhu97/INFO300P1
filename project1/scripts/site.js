@@ -322,7 +322,7 @@ document.addEventListener("DOMContentLoaded", function(){
     var graph = d3.select("#graph3").attr("width", 800)
       .attr("height", 800);
     var padding = 80;
-        margin = {top: 40, right: 20, bottom: 80, left: 80},
+        margin = {top: 80, right: 20, bottom: 80, left: 80},
         width = +graph.attr("width") - margin.left - margin.right,
         height = +graph.attr("height") - margin.top - margin.bottom;
 
