@@ -13,31 +13,8 @@
 </head>
 <body>
   <svg id="graph1"></svg>
+
   <svg id="graph2"></svg>
   <svg id="graph3"></svg>
-
-  <p>Enter array:</p>
-  <input id="array">
-  <p>Enter divisor:</p>
-  <input id="divisor" type=number>
-  <button onclick="myFunction()">Convert</button>
-  <p id="result"></p>
-
-  <script>
-  function myFunction() {
-
-    var str = document.getElementById('array').value;
-    var divisor = document.getElementById('divisor').value;
-    var quotients = str.split(" ");
-    var results = [];
-    quotients.forEach(function(element){
-      results.push(parseFloat(element)/divisor);
-    });
-    var answer = results.join();
-    var newchar = ' '
-    answer = answer.split(',').join(newchar);
-    document.getElementById('result').innerText = answer;
-  }
-  </script>
 </body>
 </html>
