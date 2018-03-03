@@ -15,6 +15,12 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+h1{
+  font-weight: bold;
+  font-size: 50px;
+  text-align: center;
+}
+
 /* ------------ Pictograms ------------ */
 #graph1{
   display: block;
@@ -44,14 +50,17 @@ body {
 
 /* ----------- graph 2 ------------- */
 
-.axis, .labels{
+.axis, .labels, .axis_label{
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
 }
 
+.axis_label{
+  font-size: 30px;
+}
 #graph2{
   background-color: #fff1e0;
-  padding-left: 30px;
+  padding-left: 25px;
 }
 
 .labels{
@@ -61,4 +70,5 @@ body {
 /* ----------- graph 3 ------------- */
 #graph3{
   background-color: #fff1e0;
+  padding-right: 25px;
 }

@@ -241,6 +241,7 @@ document.addEventListener("DOMContentLoaded", function(){
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "central")
     .attr("class", "labels")
+    .attr("font-weight", "bold")
     .text("Was There a Threat?");
 
     graph.append("text")
@@ -248,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function(){
     .attr("y", height - padding/4)
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "central")
-    .attr("class", "labels")
+    .attr("class", "axis_label")
     .text("Weapon");
 
     graph.append("text")
@@ -257,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function(){
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "central")
     .attr("transform", "rotate(270,"+padding/5+","+(height-padding)/2+")")
-    .attr("class", "labels")
+    .attr("class", "axis_label")
     .text("People Killed");
   }
 
@@ -368,8 +369,8 @@ document.addEventListener("DOMContentLoaded", function(){
       .attr("y", margin.bottom-10)
       .attr("text-anchor", "middle")
       .attr("fill", "#000")
-      .attr("font-weight", "bold")
-      .text("Frequency");
+      .attr("class", "axis_label")
+      .text("Percentages");
 
     g.append("g")
       .attr("class", "axis")
@@ -381,6 +382,7 @@ document.addEventListener("DOMContentLoaded", function(){
       .attr("text-anchor", "middle")
       .attr("fill", "#000")
       .attr("font-weight", "bold")
+      .attr("class", "labels")
       .text("Weapons Held At Time of Death, By Race");
 
     // create the legend
