@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function(){
       totalDeaths += element.value; // element.value is frequency
     });
 
-    var race_frequency_array = [];
+    var raceFrequencyArray = [];
 
     // Sort array in descending frequency order (Greatest -> Least frequent)
     data.sort(function(a, b) {
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function(){
     var rowNum = 1;
     data.forEach(function(element){
       max_index += element.value; // element.value represents 1 death
-      race_frequency_array.push({"Race" : element.key,"TotalDeaths" : element.value, "MaxIndex" : max_index - 1, "RowNum" :  rowNum});
+      raceFrequencyArray.push({"Race" : element.key,"TotalDeaths" : element.value, "MaxIndex" : max_index - 1, "RowNum" :  rowNum});
       rowNum += 1;
     });
 
@@ -130,40 +130,53 @@ document.addEventListener("DOMContentLoaded", function(){
       return yPadding+(whole*hBuffer);//apply the buffer and return the value
     })
 
-    var size = [60,50,40,30];
-    var fontColor = ["iconRed","iconBlue", "iconGreen", "iconOrange"];
-    var sizeScale = d3.scaleLinear().domain([1, 2, 3,4]).range(size);
-    var fontColorScale = d3.scaleLinear().domain([1, 2, 3,4]).range(fontColor);
-
-
     myIndex.forEach(function(index) {
       var person = graph1.select("#icon"+index)
-      if(index <= race_frequency_array[0].MaxIndex) {
+      if(index <= raceFrequencyArray[0].MaxIndex) {
         person.classed("iconRed",true);
-      } else if(index <= race_frequency_array[1].MaxIndex) {
+      } else if(index <= raceFrequencyArray[1].MaxIndex) {
         person.classed("iconBlue", true);
-      } else if(index <= race_frequency_array[2].MaxIndex) {
+      } else if(index <= raceFrequencyArray[2].MaxIndex) {
         person.classed("iconGreen", true);
-      } else if (index <= race_frequency_array[3].MaxIndex){
+      } else if (index <= raceFrequencyArray[3].MaxIndex){
         person.classed("iconPurple", true);
       } else { // Remove extra people in graph
         person.remove()
       }
     });
 
-    var y_position = 420;
-    race_frequency_array.forEach(function(element){
-      graph1.append("text")
-      .attr("id", "raceLabel")
-      .attr("x", xPadding)
-      .attr("y", y_position)
-      .attr("text-anchor", "start")
-      .attr("alignment-baseline", "hanging")
-      .style("font-size", sizeScale(element.RowNum) + "px")
-      .classed(fontColorScale(element.RowNum), true)
-      .text("70,000 people injured were white");
-      y_position += sizeScale(element.RowNum)+10;
+    var raceTextArray = [];
+    var fontColor = ["#F36052","#06B2DC", "#4FB070", "#886C88"];
+    var fontColorScale = d3.scaleLinear().domain([0, 1, 2, 3]).range(fontColor);
+    raceFrequencyArray.forEach(function(element, index) {
+      raceTextArray.push([{text: element.TotalDeaths, color: fontColorScale(index)},
+                          {text: ' of people killed were '},
+                          {text: element.Race, color: fontColorScale(index)}]);
     });
+
+    var size = [60,50,40,30];
+    var sizeScale = d3.scaleLinear().domain([1, 2, 3,4]).range(size);
+    var y_position = 390;
+    var raceLabels = graph1.selectAll('text').data(raceTextArray)
+      		            .enter().append("text")
+		                  .attr("id", "raceLabel");
+
+   raceLabels.attr("x", xPadding)
+             .attr("y", function(d, i) {
+              	y_position += sizeScale(i) + 10;
+              	return y_position;
+              })
+            .attr("text-anchor", "start")
+            .attr("alignment-baseline", "hanging")
+            .style("font-size", function(d, i) { return sizeScale(i) + "px"});
+
+    var tspans = raceLabels.selectAll('tspan')
+      								      .data(function(d) { return d; });
+    tspans.enter()
+        	.append('tspan')
+          .style('fill', function(d) { return d.color; })
+          .style('font-weight', '600')
+          .text(function(d) { return d.text; });
 
   } // End makeRaceGraph
 
@@ -267,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function(){
         cur_array = hispanic;
       } else {
         cur_array = asian;
-      } 
+      }
       var cur_total = 0;
       element['values'].forEach(function (inner_element) {
         if (inner_element['key'] == "No") {
@@ -299,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function(){
       };
       result.push(dict);
     });
-    
+
     result.forEach(function(d) {
       d.value = +d.value;
     });
@@ -345,7 +358,7 @@ document.addEventListener("DOMContentLoaded", function(){
       .attr("x", function(d) { return x(d[0]); })
       .attr("width", function(d) { return x(d[1]) - x(d[0]); })
       .attr("height", y.bandwidth());
-    
+
     g.append("g")
       .attr("class", "axis")
       .attr("transform", "translate(0,"+ height +")")
@@ -361,7 +374,7 @@ document.addEventListener("DOMContentLoaded", function(){
     g.append("g")
       .attr("class", "axis")
       .call(d3.axisLeft(y).ticks(null, "s"))
-    
+
     g.append("text")
       .attr("x", 360)
       .attr("y", -margin.top/2)
@@ -369,7 +382,7 @@ document.addEventListener("DOMContentLoaded", function(){
       .attr("fill", "#000")
       .attr("font-weight", "bold")
       .text("Weapons Held At Time of Death, By Race");
-    
+
     // create the legend
     // var legend = g.append("g")
     //   .attr("font-size", 10)
