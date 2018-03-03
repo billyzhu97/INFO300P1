@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,900');
-@import url('https://fonts.googleapis.com/css?family=Special+Elite');
 /* ------------ General Styling ------------ */
 svg {
   overflow:none;
   padding:10px;
   float:left;
+  text-align: center;
 }
 
 .background-rect{
@@ -15,7 +15,17 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+h1{
+  font-weight: bold;
+  font-size: 50px;
+  text-align: center;
+}
+
 /* ------------ Pictograms ------------ */
+#graph1{
+  display: block;
+  margin: auto;
+}
 
 .iconRed {
   fill: #F36052;
@@ -40,16 +50,25 @@ body {
 
 /* ----------- graph 2 ------------- */
 
-.axis, .labels{
-  font-family: 'Special Elite', sans-serif;
+.axis, .labels, .axis_label{
+  font-family: 'Roboto', sans-serif;
   font-size: 16px;
 }
 
+.axis_label{
+  font-size: 30px;
+}
 #graph2{
   background-color: #fff1e0;
-  padding-left: 30px;
+  padding-left: 25px;
 }
 
 .labels{
   font-size: 40px;
+}
+
+/* ----------- graph 3 ------------- */
+#graph3{
+  background-color: #fff1e0;
+  padding-right: 40px;
 }

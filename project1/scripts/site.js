@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function(){
   function makeArmedGraph(data){
 
     //constants
-    var width = 800;
+    var width = 750;
     var height = 800;
     var bar_padding = 20;
     var padding = 80;
@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     var xAxis = d3.axisBottom(xScale).tickSizeOuter(0);
     graph.append("g")
-    .attr("transform", "translate(0, "+ (width-padding) +")")
+    .attr("transform", "translate(0, "+ (width-30) +")")
     .attr("class", "axis")
     .call(xAxis);
 
@@ -260,6 +260,7 @@ document.addEventListener("DOMContentLoaded", function(){
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "central")
     .attr("class", "labels")
+    .attr("font-weight", "bold")
     .text("Was There a Threat?");
 
     graph.append("text")
@@ -267,7 +268,7 @@ document.addEventListener("DOMContentLoaded", function(){
     .attr("y", height - padding/4)
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "central")
-    .attr("class", "labels")
+    .attr("class", "axis_label")
     .text("Weapon");
 
     graph.append("text")
@@ -276,16 +277,16 @@ document.addEventListener("DOMContentLoaded", function(){
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "central")
     .attr("transform", "rotate(270,"+padding/5+","+(height-padding)/2+")")
-    .attr("class", "labels")
+    .attr("class", "axis_label")
     .text("People Killed");
   }
 
   function makeArmedbyRaceChart(armed_by_race_array) {
     // data arrays keep track of not armed, had firearm, had knife, and other weapons counts
-    var black = ["black",0,0,0,0];
-    var white = ["white",0,0,0,0];
-    var hispanic = ["hispanic",0,0,0,0];
-    var asian = ["asian",0,0,0,0];
+    var black = ["Black",0,0,0,0];
+    var white = ["White",0,0,0,0];
+    var hispanic = ["Hispanic",0,0,0,0];
+    var asian = ["Asian",0,0,0,0];
     var cur_array = [];
     var result = [];
 
@@ -341,7 +342,7 @@ document.addEventListener("DOMContentLoaded", function(){
     var graph = d3.select("#graph3").attr("width", 800)
       .attr("height", 800);
     var padding = 80;
-        margin = {top: 40, right: 20, bottom: 80, left: 80},
+        margin = {top: 80, right: 20, bottom: 80, left: 80},
         width = +graph.attr("width") - margin.left - margin.right,
         height = +graph.attr("height") - margin.top - margin.bottom;
 
@@ -387,8 +388,8 @@ document.addEventListener("DOMContentLoaded", function(){
       .attr("y", margin.bottom-10)
       .attr("text-anchor", "middle")
       .attr("fill", "#000")
-      .attr("font-weight", "bold")
-      .text("Frequency");
+      .attr("class", "axis_label")
+      .text("Percentages");
 
     g.append("g")
       .attr("class", "axis")
@@ -400,6 +401,7 @@ document.addEventListener("DOMContentLoaded", function(){
       .attr("text-anchor", "middle")
       .attr("fill", "#000")
       .attr("font-weight", "bold")
+      .attr("class", "labels")
       .text("Weapons Held At Time of Death, By Race");
 
     // create the legend
