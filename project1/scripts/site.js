@@ -183,8 +183,8 @@ document.addEventListener("DOMContentLoaded", function(){
   function makeArmedGraph(data){
 
     //constants
-    var width = 600;
-    var height = 600;
+    var width = 750;
+    var height = 800;
     var bar_padding = 20;
     var padding = 80;
 
@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     var xAxis = d3.axisBottom(xScale).tickSizeOuter(0);
     graph.append("g")
-    .attr("transform", "translate(0, "+ (width-padding) +")")
+    .attr("transform", "translate(0, "+ (width-30) +")")
     .attr("class", "axis")
     .call(xAxis);
 
@@ -320,8 +320,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
     // constants
     var keys = ["Firearm", "No Weapon", "Knife", "Other"];
-    var graph = d3.select("#graph3").attr("width", 600)
-      .attr("height", 600);
+    var graph = d3.select("#graph3").attr("width", 800)
+      .attr("height", 800);
     var padding = 80;
         margin = {top: 80, right: 20, bottom: 80, left: 80},
         width = +graph.attr("width") - margin.left - margin.right,
