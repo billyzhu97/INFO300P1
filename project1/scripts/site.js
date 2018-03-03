@@ -183,8 +183,8 @@ document.addEventListener("DOMContentLoaded", function(){
   function makeArmedGraph(data){
 
     //constants
-    var width = 800;
-    var height = 800;
+    var width = 600;
+    var height = 600;
     var bar_padding = 20;
     var padding = 80;
 
@@ -264,10 +264,10 @@ document.addEventListener("DOMContentLoaded", function(){
 
   function makeArmedbyRaceChart(armed_by_race_array) {
     // data arrays keep track of not armed, had firearm, had knife, and other weapons counts
-    var black = ["black",0,0,0,0];
-    var white = ["white",0,0,0,0];
-    var hispanic = ["hispanic",0,0,0,0];
-    var asian = ["asian",0,0,0,0];
+    var black = ["Black",0,0,0,0];
+    var white = ["White",0,0,0,0];
+    var hispanic = ["Hispanic",0,0,0,0];
+    var asian = ["Asian",0,0,0,0];
     var cur_array = [];
     var result = [];
 
@@ -320,8 +320,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
     // constants
     var keys = ["Firearm", "No Weapon", "Knife", "Other"];
-    var graph = d3.select("#graph3").attr("width", 800)
-      .attr("height", 800);
+    var graph = d3.select("#graph3").attr("width", 600)
+      .attr("height", 600);
     var padding = 80;
         margin = {top: 80, right: 20, bottom: 80, left: 80},
         width = +graph.attr("width") - margin.left - margin.right,
