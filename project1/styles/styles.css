@@ -16,6 +16,7 @@ body {
   margin: 0;
   padding: 0;
   text-align: center;
+  background-color:	#FAFAFA;
 
 }
 
@@ -60,11 +61,11 @@ h1{
 
 .axis, .labels, .axis_label{
   font-family: 'Roboto', sans-serif;
-  font-size: 16px;
+  font-size: 12px;
 }
 
 .axis_label{
-  font-size: 30px;
+  font-size: 25px;
 }
 #graph2{
   background-color: #fff1e0;
@@ -72,7 +73,7 @@ h1{
 }
 
 .labels{
-  font-size: 40px;
+  font-size: 30px;
 }
 
 #armed{

@@ -202,8 +202,8 @@ document.addEventListener("DOMContentLoaded", function(){
   function makeArmedGraph(data){
 
     //constants
-    var width = 750;
-    var height = 800;
+    var width = 600;
+    var height = 600;
     var bar_padding = 20;
     var padding = 80;
 
@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     var xAxis = d3.axisBottom(xScale).tickSizeOuter(0);
     graph.append("g")
-    .attr("transform", "translate(0, "+ (width-30) +")")
+    .attr("transform", "translate(0, "+ (width-padding) +")")
     .attr("class", "axis")
     .call(xAxis);
 
@@ -339,8 +339,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
     // constants
     var keys = ["Firearm", "No Weapon", "Knife", "Other"];
-    var graph = d3.select("#graph3").attr("width", 800)
-      .attr("height", 800);
+    var graph = d3.select("#graph3").attr("width", 600)
+      .attr("height", 600);
     var padding = 80;
         margin = {top: 80, right: 20, bottom: 80, left: 80},
         width = +graph.attr("width") - margin.left - margin.right,
@@ -384,7 +384,7 @@ document.addEventListener("DOMContentLoaded", function(){
       .attr("transform", "translate(0,"+ height +")")
       .call(d3.axisBottom(x))
       .append("text")
-      .attr("x", 360)
+      .attr("x", 250)
       .attr("y", margin.bottom-10)
       .attr("text-anchor", "middle")
       .attr("fill", "#000")
@@ -396,7 +396,7 @@ document.addEventListener("DOMContentLoaded", function(){
       .call(d3.axisLeft(y).ticks(null, "s"))
 
     g.append("text")
-      .attr("x", 360)
+      .attr("x", 250)
       .attr("y", -margin.top/2)
       .attr("text-anchor", "middle")
       .attr("fill", "#000")
