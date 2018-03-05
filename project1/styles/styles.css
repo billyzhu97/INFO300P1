@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,900');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700,900');
 /* ------------ General Styling ------------ */
 svg {
   overflow:none;
@@ -21,11 +21,32 @@ body {
 }
 
 h1{
-  font-weight: bold;
+  font-weight: 900;
   font-size: 50px;
   text-align: center;
 }
 
+h2{
+  font-weight: 700;
+  font-size: 22px;
+  text-align: center;
+}
+
+h3 {
+  font-weight: 400;
+  font-size: 20px;
+  text-align: center;
+}
+
+.italicize {
+  font-style: italic;
+}
+
+.finding {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 40px;
+}
 /* ------------ Pictograms ------------ */
 #graph1{
   display: block;
@@ -76,7 +97,7 @@ h1{
   font-size: 30px;
 }
 
-#armed{
+.armedGraph {
   display: inline-block;
   margin:auto;
 }

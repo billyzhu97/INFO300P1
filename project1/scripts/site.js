@@ -205,8 +205,8 @@ document.addEventListener("DOMContentLoaded", function(){
       .attr("alignment-baseline", "hanging")
       .style("font-family", "Roboto")
       .style("font-weight", "900")
-      .style("font-size", 45)
-      .text(totalDeaths + " total people were killed by police officers");
+      .style("font-size", 40)
+      .text(totalDeaths + " total people were killed by police officers in 2015");
 
     } // End makeRaceGraph
 
