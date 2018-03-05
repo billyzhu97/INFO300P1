@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function(){
   .attr("r","3.739")
 
   //background rectangle
-  graph1.append("rect").attr("class", "background-rect").attr("width",width).attr("height",height);
+  graph1.append("rect").attr("width",width).attr("height",height);
 
   //imports CSV file and uses the callback function
   d3.csv("data/police_killings.csv", callback);
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function(){
     var fontColorScale = d3.scaleLinear().domain([0, 1, 2, 3]).range(fontColor);
     raceFrequencyArray.forEach(function(element, index) {
       raceTextArray.push([{text: element.TotalDeaths, color: fontColorScale(index)},
-        {text: ' of people killed were '},
+        {text: ' of people killed were ', color: 'rgb(50,50,50)'},
         {text: element.Race, color: fontColorScale(index)}]);
       });
 
@@ -206,6 +206,7 @@ document.addEventListener("DOMContentLoaded", function(){
       .style("font-family", "Roboto")
       .style("font-weight", "900")
       .style("font-size", 40)
+      .style("fill", "rgb(50,50,50)")
       .text(totalDeaths + " total people were killed by police officers in 2015");
 
     } // End makeRaceGraph
