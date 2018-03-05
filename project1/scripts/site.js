@@ -178,7 +178,6 @@ document.addEventListener("DOMContentLoaded", function(){
       yPosition += yElementsPadding + 370; //355 = height of pictogram
       raceLabels.attr("x", xPadding)
       .attr("y", function(d, i) {
-        console.log("index: " + i);
         yPosition += sizeScale(i) + 10;
         return yPosition;
       })
