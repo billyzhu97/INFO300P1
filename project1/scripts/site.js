@@ -169,13 +169,15 @@ document.addEventListener("DOMContentLoaded", function(){
         {text: element.Race, color: fontColorScale(index)}]);
       });
 
+      // Create race text labels
       var size = [60,50,40,30];
-      var sizeScale = d3.scaleLinear().domain([1, 2, 3, 4]).range(size);
+      var sizeScale = d3.scaleLinear().domain([1, 2, 3, 4]).range(size); // Maps to font size for race label
       var raceLabels = graph1.selectAll('text').data(raceTextArray)
       .enter().append("text")
       .attr("id", "raceLabel");
 
-      yPosition += yElementsPadding + 370; //355 = height of pictogram
+      yPosition += yElementsPadding + 370; //370 = height of pictogram + extra padding
+
       raceLabels.attr("x", xPadding)
       .attr("y", function(d, i) {
         yPosition += sizeScale(i) + 10;
@@ -185,6 +187,7 @@ document.addEventListener("DOMContentLoaded", function(){
       .attr("alignment-baseline", "hanging")
       .style("font-size", function(d, i) { return sizeScale(i) + "px"});
 
+      // Create tspans w/n race labels, so can color each piece of text individually
       var tspans = raceLabels.selectAll('tspan')
       .data(function(d) { return d; });
       tspans.enter()
