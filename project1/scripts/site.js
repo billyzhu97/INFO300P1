@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function(){
   graph1.append("rect").attr("class", "background-rect").attr("width",width).attr("height",height);
 
   //imports CSV file and uses the callback function
-  d3.csv("./data/police_killings.csv", callback);
+  d3.csv("data/police_killings.csv", callback);
 
   function callback(error, data) {
 
