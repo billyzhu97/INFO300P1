@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
       //appends labels to the graph
       graph.append("text")
-      .attr("x", (width+padding)/2)
+      .attr("x", width/2)
       .attr("y", padding/2)
       .attr("text-anchor", "middle")
       .attr("alignment-baseline", "central")
@@ -278,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function(){
       .text("Was There a Threat?");
 
       graph.append("text")
-      .attr("x", (width+padding)/2)
+      .attr("x", width/2)
       .attr("y", height - padding/4)
       .attr("text-anchor", "middle")
       .attr("alignment-baseline", "central")
